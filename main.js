@@ -115,6 +115,131 @@ function spawnPipe(xOffset = 5) {
     pipes.push({ topPipe, bottomPipe, passed: false }); // Track whether the pipe has been passed
     scene.add(topPipe, bottomPipe);
 }
+// Animate Game
+function animate() {
+    if (!gameRunning || isPaused) return;
+
+    requestAnimationFrame(animate);
+
+    // Bird Physics
+    velocity += gravity;
+    bird.position.y += velocity;
+
+    // Bird hits the ground or flies too high
+    if (bird.position.y < -8 || bird.position.y > 8) {
+        endGame(); // End the game if the bird moves out of bounds
+        return; // Stop further execution
+    }
+
+    // Move pipes and detect collisions
+    pipes.forEach((pipe, index) => {
+        pipe.topPipe.position.x -= pipeSpeed;
+        pipe.bottomPipe.position.x -= pipeSpeed;
+
+        // Check if the bird has passed the pipe
+        if (!pipe.passed && pipe.topPipe.position.x < bird.position.x) {
+            score++;
+            pipe.passed = true; // Mark this pipe as passed
+            document.getElementById("score").innerText = Score: ${score};
+
+            // Increase difficulty every 10 pipes
+            if (score % 10 === 0) {
+                pipeGap = Math.max(2, pipeGap - 0.5); // Reduce gap size
+                pipeSpeed += 0.01; // Increase pipe speed
+            }
+        }
+
+        // Remove pipes after they exit the left side of the screen
+        if (pipe.topPipe.position.x < -15) { // Pipes fully out of view
+            scene.remove(pipe.topPipe);
+            scene.remove(pipe.bottomPipe);
+            pipes.splice(index, 1); // Remove pipe from array
+        }
+    });
+
+    // Generate new pipes if fewer than 5 are on the screen
+    while (pipes.length < 5) {
+        spawnPipe(pipes.length === 0 ? 10 : pipes[pipes.length - 1].topPipe.position.x + 6);
+    }
+
+    // Detect collisions
+    pipes.forEach(pipe => {
+        const birdBox = new THREE.Box3().setFromObject(bird).expandByScalar(-0.1); // Relaxed detection
+        const topPipeBox = new THREE.Box3().setFromObject(pipe.topPipe).expandByScalar(0.1);
+        const bottomPipeBox = new THREE.Box3().setFromObject(pipe.bottomPipe).expandByScalar(0.1);
+
+        if (birdBox.intersectsBox(topPipeBox) || birdBox.intersectsBox(bottomPipeBox)) {
+            endGame(); // End game on collision
+            return; // Stop further execution
+        }
+    });
+
+    // Render the scene
+    renderer.render(scene, camera);
+}
+
+// Handle Input for Pause and Resume
+window.addEventListener("keydown", (e) => {
+    if (e.code === "Space" && gameRunning && !isPaused) {
+        velocity = 0.2; // Adjust the bird's upward movement
+    }
+
+    if (e.code === "P" && gameRunning) {
+        if (!isPaused) {
+            pauseGame(); // Call the pauseGame function
+        }
+    }
+
+    if (e.code === "R" && gameRunning) {
+        if (isPaused) {
+            resumeGame(); // Call the resumeGame function
+        }
+    }
+});
+
+// Pause the game
+function pauseGame() {
+    console.log("Game Paused");
+    isPaused = true;
+}
+
+// Resume the game
+function resumeGame() {
+    console.log("Game Resumed");
+    isPaused = false;
+    animate(); // Restart the game loop
+}
+
+
+// End Game
+function endGame() {
+    gameRunning = false; // Stop the game
+    isPaused = false; // Ensure the game isn't paused
+
+    // Update High Score
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("highScore", highScore);
+        document.getElementById("highScore").innerText = High Score: ${highScore};
+    }
+
+    alert(Game Over! Your score: ${score}); // Show a game over message
+
+    // Reset pipes and bird position
+    pipes.forEach(pipe => {
+        scene.remove(pipe.topPipe);
+        scene.remove(pipe.bottomPipe);
+    });
+    pipes = [];
+    bird.position.set(0, 0, 0); // Reset bird position
+    velocity = 0; // Reset bird velocity
+
+    // Show the start menu again
+    document.getElementById("menu").style.display = "block";
+    document.getElementById("gameCanvas").style.display = "none";
+}
+
+init();
 
 
 
