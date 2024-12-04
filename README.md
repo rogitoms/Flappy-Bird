@@ -3,7 +3,7 @@
 Flappy Bird 3D is a browser-based game that challenges players to navigate a bird through a series of moving pipes using simple keyboard controls. Developed using [Three.js](https://threejs.org/), the game immerses players in a dynamic 3D environment with smooth animations, realistic physics, and progressively increasing difficulty.
 
 ## How to Play
-Flappy Bird 3D is simple yet challenging. The objective is to guide a bird through a series of moving pipes without crashing into them. 
+Flappy-Bird 3D is simple yet challenging. The objective is to guide a bird through a series of moving pipes without crashing into them. 
 To control the bird:
 1. Flap the wings: Press the Spacebar to make the bird fly upward.
 2. Gravity: The bird naturally falls due to gravity, so you need to keep flapping to stay in the air.
@@ -34,7 +34,7 @@ As you progress, the difficulty increases with faster pipes and narrower gaps, m
 
 ## How to Run Locally
 - Clone this repostory using the following commands
-       git clone https://github.com/Kibet-1Yvonne/Flappy-bird.git
+       git clone https://github.com/Rogitoms/Flappy-Bird.git
        cd Flappy-bird
 - Then open the index.html file in any web browser to play the game.
 ## Future Enhancements
