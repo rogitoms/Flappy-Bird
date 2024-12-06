@@ -52,7 +52,7 @@ As you progress, the difficulty increases with faster pipes and narrower gaps, m
 - Mobile Support: Make the game responsive for mobile devices.
 - Customizable Skins: Allow players to choose or unlock different bird designs.
 
-## Cpntribution Guidelines
+## Contribution Guidelines
 This is how you can help:
 - Fork the repository
 - Create a branch
