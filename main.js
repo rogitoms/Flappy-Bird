@@ -37,7 +37,7 @@ class GameLoop {
 }
 
 let gameLoop = null;
-
+// bring in the images for  bird animation
 function loadFrames() {
     const textureLoader = new THREE.TextureLoader();
 
@@ -63,7 +63,7 @@ function loadFrames() {
     }
 }
 
-
+// loop through the frames for animation
 function animateFrames() {
     setInterval(() => {
         if (bird && birdFrames.length > 0) {
@@ -146,6 +146,7 @@ function init() {
     renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("gameCanvas") });
     renderer.setSize(window.innerWidth, window.innerHeight);
 
+    // Add background gradient
     const gradientTexture = new THREE.CanvasTexture(createGradientTexture());
     const gradientMaterial = new THREE.MeshBasicMaterial({ map: gradientTexture, side: THREE.BackSide });
     const backgroundGeometry = new THREE.SphereGeometry(30, 64, 64);
@@ -153,7 +154,7 @@ function init() {
     backgroundMesh.scale.set(-1, 1, 1);
     scene.add(backgroundMesh);
 
-
+   // make the bird sprite and load the frames
     loadFrames();
 
         // Load audio files
@@ -163,7 +164,7 @@ function init() {
     flapSound = new Audio('./assets/audio/flap.mp3');
     collisionSound = new Audio('./assets/audio/collision.mp3');
 
-
+    // Add lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(10, 10, 10);
@@ -178,7 +179,7 @@ function init() {
     gameLoop = new GameLoop(gameUpdate);
 }
 
-
+// Create a gradient texture for the background 
 function createGradientTexture() {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -190,6 +191,7 @@ function createGradientTexture() {
     return canvas;
 }
 
+// Start the game
 function startGames() {
     gameRunning = true;
     document.getElementById("menu").style.display = "none";
@@ -206,6 +208,7 @@ function startGames() {
     gameLoop.start();
 }
 
+// Function to spawn pipes
 function spawnPipe(xOffset = 5) {
     const pipeRadius = 0.5;
     const pipeHeight = 10;
@@ -242,8 +245,10 @@ function endGame() {
     bird.position.set(0, 0, 0);
     velocity = 0;
 
+    // Pause background music
     backgroundMusic.pause(); // Pause background music
     backgroundMusic.currentTime = 0; // Reset music to start   
+
     // Update High Score
     if (score > highScore) {
         highScore = score;
@@ -263,13 +268,14 @@ function endGame() {
 }
 
 
-// Spawn Initial Pipes
+// determines how the pipes are spread across the screen
 function spawnInitialPipes() {
     for (let i = 1; i <= 5; i++) {
         spawnPipe(i * 6); // Spread pipes across the screen
     }
 }
 
+// Event listener for space key
 window.addEventListener("keydown", (e) => {
     if (e.code === "Space") {
         e.preventDefault();
