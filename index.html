@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="menu">
+        <h1>Flappy Bird </h1>
+        <button id="startBtn" onclick="startGames()"> Start Game  </button>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <button id="pauseButton">Pause</button>
+
+    <div id="ui">
+        <p id="score">Score: 0</p>
+        <p id="highScore">High Score: 0</p>
+    </div>
+    <div id="pauseOverlay" style="display: none;">Game Paused</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
