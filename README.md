@@ -40,12 +40,13 @@ As you progress, the difficulty increases with faster pipes and narrower gaps, m
        cd Flappy-bird
 - install Node.js and configure it (if you do not have it)
 - run the following commands
-  '''ssh
-  npm install 
-this will instsall the necessary dependencies
 
-'''ssh
-  node server.js
+  npm install : to install the necessary dependencies
+   
+
+  node server.js : to run the game on the server
+
+ 
 ## Future Enhancements
 - Leaderboard Integration: Track and display top scores globally.
 - Mobile Support: Make the game responsive for mobile devices.
